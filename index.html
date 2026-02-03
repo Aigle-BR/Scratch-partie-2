@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <title>Exercices sur Scratch - Maths</title>
+
+  <style>
+* {
+  -webkit-tap-highlight-color: transparent; /* supprime le flash bleu/gris sur mobile */
+  -webkit-user-drag: none; /* empêche le drag d'images sur iOS/Safari */
+}
+    
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 15px;
+  background: #111;
+  color: white;
+  font-family: sans-serif;
+  gap: 10px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  user-select: none;
+}
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+/* ✅ Centrage total des titres */
+h1, h2 {
+  width: 100%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+p {
+  text-align: center;
+}
+
+.slider {
+  position: relative;
+  width: 90%;
+  max-width: 700px;
+  margin: 0 auto;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  background: #000;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
+  height: 100%;
+}
+
+.slides img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #555;
+  flex-shrink: 0;
+}
+
+img {
+  user-drag: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+}
+
+.btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 26px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.btn:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #777;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.dot.active {
+  background: #00b4ff;
+  transform: scale(1.3);
+}
+
+.message-petit-ecran {
+  visibility: hidden;
+  text-align: center;
+  color: #ffb400;
+  font-size: 0.95rem;
+  margin-top: 10px;
+  padding: 6px;
+  height: 0; /* optionnel : réduit l'espace visuel */
+  overflow: hidden;
+  display: none;
+}  
+
+/* --- 📱 Petits téléphones (moins de 400px) --- */
+@media (max-width: 400px) {
+  h1 {
+    font-size: 1.2rem;
+  }
+  h2 {
+    font-size: 0.95rem;
+  }
+  .slider {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+  .btn {
+    padding: 10px 14px;
+    font-size: 30px;
+  }
+
+    .message-petit-ecran {
+    visibility: visible;
+    height: auto; /* si tu avais mis height:0 */
+    display: block;
+  }
+  
+}
+
+/* --- 📱 Tous les téléphones (jusqu’à 600px) --- */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.3rem;
+  }
+  h2 {
+    font-size: 1rem;
+  }
+  .slider {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+  .btn {
+    padding: 10px 14px;
+    font-size: 30px;
+  }
+    .message-petit-ecran {
+    visibility: visible;
+    height: auto; /* si tu avais mis height:0 */
+    display: block;
+  }
+}
+
+/* --- 📱 Ajustement automatique de la hauteur pour écrans longs --- */
+@media (max-height: 700px) {
+  body {
+    justify-content: flex-start;
+    padding-top: 20px;
+  }
+  .slider {
+    max-height: 70vh;
+  }
+}
+  </style>
+</head>
+
+<body>
+  <h1>Captures d'écrans des exercices Scratch</h1>
+  <h2 id="slider-title">Image 1/5 : exercice 9</h2>
+
+  <div class="slider">
+    <div class="slides">
+      <img src="./exercice9.png" alt="exercice 9">
+      <img src="./exercice10.png" alt="exercice 10">
+      <img src="./exercice11.png" alt="exercice 11">
+      <img src="./exercice13.png" alt="exercice 13">
+      <img src="./exercice14.png" alt="exercice 14">
+    </div>
+
+    <button class="btn prev">&#10094;</button>
+    <button class="btn next">&#10095;</button>
+  </div>
+
+  <div class="dots"></div>
+
+  <p class="message-petit-ecran">Si le site ne se présente pas bien sur téléphone en mode portrait, essayer de le mettre en mode paysage</p>
+  <p>Désolé pour le style (qui n'est pas très bien fait)</p>
+
+  <script>
+    const slides = document.querySelector('.slides');
+    const images = document.querySelectorAll('.slides img');
+    const prev = document.querySelector('.prev');
+    const next = document.querySelector('.next');
+    const title = document.getElementById('slider-title');
+
+    let index = 0;
+
+    const titles = [
+      "Image 1/5 : exercice 9",
+      "Image 2/5 : exercice 10",
+      "Image 3/5 : exercice 11",
+      "Image 4/5 : exercice 13",
+      "Image 5/5 : exercice 14"
+    ];
+
+    // Création automatique des points
+    const dotsContainer = document.querySelector('.dots');
+    images.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => {
+        index = i;
+        showSlide();
+        updateDots();
+      });
+      dotsContainer.appendChild(dot);
+    });
+
+    function updateDots() {
+      const dots = document.querySelectorAll('.dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+
+    function showSlide() {
+      slides.style.transform = `translateX(${-index * slides.clientWidth}px)`;
+      title.textContent = titles[index];
+      updateDots();
+    }
+
+    next.addEventListener('click', () => {
+      index = (index + 1) % images.length;
+      showSlide();
+    });
+
+    prev.addEventListener('click', () => {
+      index = (index - 1 + images.length) % images.length;
+      showSlide();
+    });
+
+    // --- Gestion tactile & souris ---
+    let startX = 0;
+    let isDragging = false;
+
+    slides.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    });
+
+    slides.addEventListener('touchend', (e) => {
+      const endX = e.changedTouches[0].clientX;
+      handleSwipe(endX);
+    });
+
+    slides.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+    });
+
+    slides.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      const endX = e.clientX;
+      handleSwipe(endX);
+    });
+
+    slides.addEventListener('mouseleave', () => {
+      isDragging = false;
+    });
+
+    function handleSwipe(endX) {
+      const diff = startX - endX;
+      if (diff > 50) {
+        index = (index + 1) % images.length;
+      } else if (diff < -50) {
+        index = (index - 1 + images.length) % images.length;
+      }
+      showSlide();
+    }
+
+    // --- Défilement horizontal (touchpad) ---
+    let wheelTimeout = null;
+    slides.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        e.preventDefault();
+        if (Math.abs(e.deltaX) < 40) return;
+        if (wheelTimeout) return;
+
+        if (e.deltaX > 0) {
+          index = (index + 1) % images.length;
+        } else if (e.deltaX < 0) {
+          index = (index - 1 + images.length) % images.length;
+        }
+
+        showSlide();
+        wheelTimeout = setTimeout(() => {
+          wheelTimeout = null;
+        }, 600);
+      }
+    }, { passive: false });
+
+    window.addEventListener('resize', showSlide);
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
