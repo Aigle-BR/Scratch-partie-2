@@ -211,6 +211,7 @@ img {
       <img src="./11 p19.png" alt="exercice 11 p19">
       <img src="./13 p20.png" alt="exercice 13 p20">
       <img src="./15 p21.png" alt="exercice 15 p21">
+      <button class="btn fullscreen" style="top:10px; right:10px; transform:none;">⛶</button>
     </div>
 
     <button class="btn prev">&#10094;</button>
@@ -337,6 +338,18 @@ img {
     }, { passive: false });
 
     window.addEventListener('resize', showSlide);
+
+    const fullscreenBtn = document.querySelector('.fullscreen');
+
+fullscreenBtn.addEventListener("click", () => {
+  if (!document.fullscreenElement) {
+    document.querySelector(".slider").requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+    
   </script>
 </body>
 </html>
+
