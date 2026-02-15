@@ -8,8 +8,8 @@
 
   <style>
 * {
-  -webkit-tap-highlight-color: transparent; /* supprime le flash bleu/gris sur mobile */
-  -webkit-user-drag: none; /* empêche le drag d'images sur iOS/Safari */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-drag: none;
 }
     
 body {
@@ -29,22 +29,14 @@ body {
   user-select: none;
 }
 
-h1 {
-  text-align: center;
-}
-
-h2 {
-  margin: 0;
-  font-size: 1.4rem;
-  text-align: center;
-}
-
-/* ✅ Centrage total des titres */
 h1, h2 {
   width: 100%;
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.4rem;
 }
 
 p {
@@ -61,6 +53,12 @@ p {
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
   background: #000;
+}
+
+.slider:fullscreen {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
 }
 
 .slides {
@@ -97,14 +95,29 @@ img {
   cursor: pointer;
   border-radius: 50%;
   z-index: 10;
+  transition: 0.2s ease;
 }
 
 .btn:hover {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .prev { left: 10px; }
 .next { right: 10px; }
+
+.fullscreen {
+  top: 10px;
+  right: 10px;
+  transform: none;
+  font-size: 18px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  z-index: 20;
+}
+
+.fullscreen:hover {
+  transform: scale(1.05);
+}
 
 .dots {
   display: flex;
@@ -134,222 +147,124 @@ img {
   font-size: 0.95rem;
   margin-top: 10px;
   padding: 6px;
-  height: 0; /* optionnel : réduit l'espace visuel */
-  overflow: hidden;
   display: none;
-}  
-
-/* --- 📱 Petits téléphones (moins de 400px) --- */
-@media (max-width: 400px) {
-  h1 {
-    font-size: 1.2rem;
-  }
-  h2 {
-    font-size: 0.95rem;
-  }
-  .slider {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-  }
-  .btn {
-    padding: 10px 14px;
-    font-size: 30px;
-  }
-
-    .message-petit-ecran {
-    visibility: visible;
-    height: auto; /* si tu avais mis height:0 */
-    display: block;
-  }
-  
 }
 
-/* --- 📱 Tous les téléphones (jusqu’à 600px) --- */
 @media (max-width: 600px) {
-  h1 {
-    font-size: 1.3rem;
-  }
-  h2 {
-    font-size: 1rem;
-  }
   .slider {
     width: 100%;
     aspect-ratio: 4 / 3;
   }
+
   .btn {
     padding: 10px 14px;
     font-size: 30px;
   }
-    .message-petit-ecran {
-    visibility: visible;
-    height: auto; /* si tu avais mis height:0 */
-    display: block;
-  }
-}
 
-/* --- 📱 Ajustement automatique de la hauteur pour écrans longs --- */
-@media (max-height: 700px) {
-  body {
-    justify-content: flex-start;
-    padding-top: 20px;
-  }
-  .slider {
-    max-height: 70vh;
+  .message-petit-ecran {
+    visibility: visible;
+    display: block;
   }
 }
   </style>
 </head>
 
 <body>
-  <h1>Captures d'écrans des exercices Scratch (partie 2)</h1>
-  <h2 id="slider-title">Image 1/5 : exercice 9</h2>
 
-  <div class="slider">
-    <div class="slides">
-      <img src="./6 p17.png" alt="exercice 6 p17">
-      <img src="./9 p19.png" alt="exercice 9 p19">
-      <img src="./11 p19.png" alt="exercice 11 p19">
-      <img src="./13 p20.png" alt="exercice 13 p20">
-      <img src="./15 p21.png" alt="exercice 15 p21">
-      <button class="btn fullscreen" style="top:10px; right:10px; transform:none;">⛶</button>
-    </div>
+<h1>Captures d'écrans des exercices Scratch (partie 2)</h1>
+<h2 id="slider-title">Image 1/5 : exercice 6 p17</h2>
 
-    <button class="btn prev">&#10094;</button>
-    <button class="btn next">&#10095;</button>
+<div class="slider">
+  <div class="slides">
+    <img src="./6 p17.png" alt="exercice 6 p17">
+    <img src="./9 p19.png" alt="exercice 9 p19">
+    <img src="./11 p19.png" alt="exercice 11 p19">
+    <img src="./13 p20.png" alt="exercice 13 p20">
+    <img src="./15 p21.png" alt="exercice 15 p21">
   </div>
 
-  <div class="dots"></div>
+  <button class="btn prev">&#10094;</button>
+  <button class="btn next">&#10095;</button>
+  <button class="btn fullscreen">⛶</button>
+</div>
 
-  <p class="message-petit-ecran">Si le site ne se présente pas bien sur téléphone en mode portrait, essayer de le mettre en mode paysage</p>
-  <p>Désolé pour le style (qui n'est pas très bien fait)</p>
+<div class="dots"></div>
 
-  <script>
-    const slides = document.querySelector('.slides');
-    const images = document.querySelectorAll('.slides img');
-    const prev = document.querySelector('.prev');
-    const next = document.querySelector('.next');
-    const title = document.getElementById('slider-title');
+<p class="message-petit-ecran">
+Si le site ne se présente pas bien sur téléphone en mode portrait, essayez le mode paysage.
+</p>
 
-    let index = 0;
+<p>Désolé pour le style 🙂</p>
 
-    const titles = [
-      "Image 1/5 : exercice 6 p17",
-      "Image 2/5 : exercice 9 p19",
-      "Image 3/5 : exercice 11 p19",
-      "Image 4/5 : exercice 13 p20",
-      "Image 5/5 : exercice 15 p21"
-    ];
+<script>
+const slides = document.querySelector('.slides');
+const images = document.querySelectorAll('.slides img');
+const prev = document.querySelector('.prev');
+const next = document.querySelector('.next');
+const title = document.getElementById('slider-title');
+const fullscreenBtn = document.querySelector('.fullscreen');
+const slider = document.querySelector('.slider');
 
-    // Création automatique des points
-    const dotsContainer = document.querySelector('.dots');
-    images.forEach((_, i) => {
-      const dot = document.createElement('div');
-      dot.classList.add('dot');
-      if (i === 0) dot.classList.add('active');
-      dot.addEventListener('click', () => {
-        index = i;
-        showSlide();
-        updateDots();
-      });
-      dotsContainer.appendChild(dot);
-    });
+let index = 0;
 
-    function updateDots() {
-      const dots = document.querySelectorAll('.dot');
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
-    }
+const titles = [
+  "Image 1/5 : exercice 6 p17",
+  "Image 2/5 : exercice 9 p19",
+  "Image 3/5 : exercice 11 p19",
+  "Image 4/5 : exercice 13 p20",
+  "Image 5/5 : exercice 15 p21"
+];
 
-    function showSlide() {
-      slides.style.transform = `translateX(${-index * slides.clientWidth}px)`;
-      title.textContent = titles[index];
-      updateDots();
-    }
+const dotsContainer = document.querySelector('.dots');
 
-    next.addEventListener('click', () => {
-      index = (index + 1) % images.length;
-      showSlide();
-    });
+images.forEach((_, i) => {
+  const dot = document.createElement('div');
+  dot.classList.add('dot');
+  if (i === 0) dot.classList.add('active');
+  dot.addEventListener('click', () => {
+    index = i;
+    showSlide();
+  });
+  dotsContainer.appendChild(dot);
+});
 
-    prev.addEventListener('click', () => {
-      index = (index - 1 + images.length) % images.length;
-      showSlide();
-    });
+function updateDots() {
+  document.querySelectorAll('.dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+}
 
-    // --- Gestion tactile & souris ---
-    let startX = 0;
-    let isDragging = false;
+function showSlide() {
+  slides.style.transform = `translateX(-${index * 100}%)`;
+  title.textContent = titles[index];
+  updateDots();
+}
 
-    slides.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-    });
+next.addEventListener('click', () => {
+  index = (index + 1) % images.length;
+  showSlide();
+});
 
-    slides.addEventListener('touchend', (e) => {
-      const endX = e.changedTouches[0].clientX;
-      handleSwipe(endX);
-    });
+prev.addEventListener('click', () => {
+  index = (index - 1 + images.length) % images.length;
+  showSlide();
+});
 
-    slides.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-    });
-
-    slides.addEventListener('mouseup', (e) => {
-      if (!isDragging) return;
-      isDragging = false;
-      const endX = e.clientX;
-      handleSwipe(endX);
-    });
-
-    slides.addEventListener('mouseleave', () => {
-      isDragging = false;
-    });
-
-    function handleSwipe(endX) {
-      const diff = startX - endX;
-      if (diff > 50) {
-        index = (index + 1) % images.length;
-      } else if (diff < -50) {
-        index = (index - 1 + images.length) % images.length;
-      }
-      showSlide();
-    }
-
-    // --- Défilement horizontal (touchpad) ---
-    let wheelTimeout = null;
-    slides.addEventListener('wheel', (e) => {
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-        e.preventDefault();
-        if (Math.abs(e.deltaX) < 40) return;
-        if (wheelTimeout) return;
-
-        if (e.deltaX > 0) {
-          index = (index + 1) % images.length;
-        } else if (e.deltaX < 0) {
-          index = (index - 1 + images.length) % images.length;
-        }
-
-        showSlide();
-        wheelTimeout = setTimeout(() => {
-          wheelTimeout = null;
-        }, 600);
-      }
-    }, { passive: false });
-
-    window.addEventListener('resize', showSlide);
-
-    const fullscreenBtn = document.querySelector('.fullscreen');
-
+/* Plein écran */
 fullscreenBtn.addEventListener("click", () => {
   if (!document.fullscreenElement) {
-    document.querySelector(".slider").requestFullscreen();
+    slider.requestFullscreen();
   } else {
     document.exitFullscreen();
   }
 });
-    
-  </script>
+
+document.addEventListener("fullscreenchange", () => {
+  fullscreenBtn.textContent = document.fullscreenElement ? "✕" : "⛶";
+});
+
+showSlide();
+</script>
+
 </body>
 </html>
-
